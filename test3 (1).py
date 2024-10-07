@@ -25,7 +25,7 @@ img = img.resize((300, 75))
 container.image(img)
 
 openai_api_key = "Enter OPENAI Api Key"
-
+#Enter OpenAI API key
 class Background:
     def __init__(self, img):
         self.img = img
@@ -67,7 +67,7 @@ class Fundamental:
         already knows, or will generate. Take into account, that the documented knowledge comes in the next scrutcture. **Title:** (Message of the Titel), **Description:** (Message of the
         Descricption)\n\n, and so on. All articles from the documented knowledge have a title and a description (both of which are separated by comas), and all articles are separated with the \n\n
         command between one another.
-
+        #Gives a prompt to ChatGPT and and returns information
         Documented Information:
         {docu_knowledge},
 
@@ -82,19 +82,19 @@ class Fundamental:
         search_results = self.agent.run(company_name + self.prompt_template, callbacks = [st_callback])
         symbols = search_results.split(" ")
         return symbols
-
+        #Gets the data for the stock symbols
     def get_gnews_api(self):
         url = "https://gnews.io/api/v4/top-headlines?lang=en&token=<Enter GNews Api Key>"
         response = requests.get(url)
         news = response.json()
         return news
-
+        #Gets general news for the stock market
     def get_gnews_api_spec(self, search_term):
         url = f"https://gnews.io/api/v4/search?q={search_term}&token=<Enter GNews Api Key>"
         response = requests.get(url)
         news = response.json()
         return news
-
+        #Gets specific news for prompted stocks
     def get_response(self, user_message, docu_knowledge, temperature = 0):
 
         PROMPT = PromptTemplate(input_variables = ['input','docu_knowledge'], template = self.DEFAULT_TEMPLATE)
@@ -112,7 +112,7 @@ class Fundamental:
         date_month = date_now.month
         date_day = date_now.day
         date_day_ = date_now.strftime("%A")
-
+        #Displays date and time
         date_d = "{}-{}-{}".format(date_year, date_month, date_day)
 
         st.title(":orange[Welcome!]")
@@ -121,11 +121,11 @@ class Fundamental:
 
         if "messages" not in st.session_state:
             st.session_state["messages"] = [ChatMessage(role = "assistant", content = "")]
-
+        
         with st.form(key = 'company_search_form'):
             company_name = st.text_input("Enter a company name:")
             submit_button = st.form_submit_button("Search", type = "primary")
-
+            #Search for Stock.
         if submit_button and company_name:
             articles_string = ""
             symbols = await self.get_stock_symbol(company_name)
@@ -139,7 +139,7 @@ class Fundamental:
                 with urllib.request.urlopen(url) as response:
                     data = json.loads(response.read().decode("utf-8"))
                     articles = data["articles"]
-
+                    #Gets data from Gnews
                        
                     with st.spinner("Searching..."):
                     
@@ -155,7 +155,7 @@ class Fundamental:
                                     st.write(f"**Description:** {articles[i]['description']}")
                                     st.write(f"**URL:** {articles[i]['url']}")
                                     st.markdown("""---""")
-            try:
+            try:                    #Displayed all the articles from GNews
                 with st.sidebar:
                     with st.spinner("Searching..."):
                         
@@ -185,7 +185,7 @@ class Fundamental:
                                                 
                                                 st.write(f"**URL:** {articles[i]['url']}")
                                                 st.markdown("""---""")
-                                                
+                                                #Displayes the news.
             
 
                 with st.chat_message("assistant"):
