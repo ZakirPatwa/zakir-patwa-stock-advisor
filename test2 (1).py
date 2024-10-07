@@ -13,36 +13,39 @@ import requests
 import json
 # This library will be used to fetch the API.
 import urllib.request
+# import libraries
 
-
-st.set_page_config(page_title = "Dater", page_icon = "🌌️", layout = "wide", initial_sidebar_state = "expanded")
-st.title("Dater 👁️‍🗨️️")
-
+st.set_page_config(page_title = "Stock Advicer", page_icon = "🌌️", layout = "wide", initial_sidebar_state = "expanded")
+st.title("Stock Advice 👁️‍🗨️️")
+# create the tab title
 OPENAI_API_KEY = "Enter OPENAI Api Key"
-
+#insert your own chatGPT API Key
 class Dater:
     
     def __init__(self):
         self.llm = OpenAI(model_name = "gpt-4o", temperature = 0, streaming = True, api_key = OPENAI_API_KEY)
         self.tools = load_tools(["ddg-search"])
         self.agent = initialize_agent(self.tools, self.llm, agent = AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose = False, handle_parsing_errors=True)
-
+        #Allows ChatGPT to be access by the website and take live data inputted by the user. 
     async def get_stock_symbol(self, company_name):
         st_callback = StreamlitCallbackHandler(st.container())
         search_results = self.agent.run(company_name + " stock symbol(s). Return only the symbols separated by spaces. Don't add any type of punctuantion", callbacks = [st_callback])
         symbols = search_results.split(" ")
         return symbols
+        #Requests ChatGPT to give out ticker symbols to the user.
 
     async def get_stock_history(self, symbol, date):
         ticker = yf.Ticker(symbol)
         data = ticker.history(start = "2015-01-01", end = date)
         return data
+        #This allows the program to gather the stock data to later be graphed by numpy
 
     async def get_gnews_api(self):
         url = "https://gnews.io/api/v4/top-headlines?lang=en&token=<Enter GNews Api Key>"
         response = requests.get(url)
         news = response.json()
         return news 
+        #Gather news from GNews API
 
     async def get_gnews_api_spec(self, search_term):
           
@@ -53,6 +56,7 @@ class Dater:
             data = json.loads(response.read().decode("utf-8"))
             articles = data["articles"]
             return articles
+            #Get news for a specific stock from ChatGPT.
 
         
         
@@ -63,20 +67,20 @@ class Dater:
         date_month = date_now.month
         date_day = date_now.day
         date_day_ = date_now.strftime("%A")
-
+        #Displays the time of day
         date_d = "{}-{}-{}".format(date_year, date_month, date_day)
 
         st.title(":blue[Welcome!:]")
         st.header("_Trading Bot App_")
         st.subheader(f" :green[_{date_d}_]")
         st.subheader(date_day_, divider = 'rainbow')
-
+        #Create Title
         company_name = st.text_input("Enter a company name:")
 
         if company_name:
 
             symbols = await self.get_stock_symbol(company_name)
-
+            #Gets ticker symbol from ChatGPT
             for symbol in symbols:
 
                 
@@ -86,11 +90,11 @@ class Dater:
                     apikey = "Enter Gnews Api Key"
                     search_term = "nvidia"
                     url = f"https://gnews.io/api/v4/search?q={search_term}&lang=en&country=us&max=10&apikey={apikey}"
-
+                    
                     with urllib.request.urlopen(url) as response:
                         data = json.loads(response.read().decode("utf-8"))
                         articles = data["articles"]
-
+                        #Gather News
                         for i in range(len(articles)):
                             #print(f"Title: {articles[i]['title']}")
                             #print(f"Description: {articles[i]['description']}")
@@ -98,6 +102,7 @@ class Dater:
                             st.write(f"**Description:** {articles[i]['description']}")
                             st.write(f"**URL:** {articles[i]['url']}")
                             st.markdown("""---""")
+                            #Displays News in a list
        
                             break
                 with right_column:
@@ -118,6 +123,7 @@ class Dater:
                 feg.update_layout(xaxis_rangeslider_visible = False)
 
                 plot_placeholder.plotly_chart(feg, use_container_width = True)
+                #Graphs the data gather using numpy and allows the graph to be interactive.
             
 
 if __name__ == "__main__":
