@@ -177,9 +177,6 @@ class Fundamental:
 
                                             st.subheader("General News from GNews API", divider = 'rainbow')
                                             for i in range(len(articles)):
-                                                    
-                                                #print(f"Title: {articles[i]['title']}")
-                                                #print(f"Description: {articles[i]['description']}")
                                                 st.write(f"**Title:** {articles[i]['title']}")
                                                 st.write(f"**Description:** {articles[i]['description']}")
                                                 
