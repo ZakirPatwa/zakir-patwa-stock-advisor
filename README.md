@@ -12,16 +12,16 @@ are a beginner or an experienced trader.
 
 ## For Users and Developers: To run the program, many packages are required. Packages include: 
 
-from langchain.llms import OpenAI
-from langchain.agents import AgentType, initialize_agent, load_tools
-from langchain.callbacks import StreamlitCallbackHandler
-from datetime import datetime
+from langchain.llms import OpenAI 
+from langchain.agents import AgentType, initialize_agent, load_tools 
+from langchain.callbacks import StreamlitCallbackHandler 
+from datetime import datetime 
 import asyncio
-import yfinance as yf
-import pandas as pd
-import plotly.graph_objects as go
-import requests
-import json
+import yfinance as yf 
+import pandas as pd 
+import plotly.graph_objects as go 
+import requests 
+import json 
 import urllib.request
 
 After importing the latest versions of the packages, you should be able to run the code without errors. 
@@ -33,5 +33,5 @@ of the given stock. If you are running the news and interactive graph program, t
 an interactive graph showing the stock data with candlestick patterns. This information could be useful
 to make financial decisions based on the stock such as buying, selling, holding, long term, short term, etc.
 
-# If you find a bug or a possible improvement to this project, please submit an issue in the issues tab above. Thank you!
+## If you find a bug or a possible improvement to this project, please submit an issue in the issues tab above. Thank you!
 
