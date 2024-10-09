@@ -38,10 +38,13 @@ After importing the latest versions of the packages, you should be able to run t
 
 After running the program, the browser will prompt you to enter in a stock. Any stock works. You may include
 more than one stock at a time. The program will then take the stock data and generate news articles on the
-stock. If you are running the news and pros and cons program, the program will display the pros and cons
-of the given stock. If you are running the news and interactive graph program, the program will display
+stock. If you are running the pros and cons program, the program will display the pros and cons
+of the given stock. If you are running the interactive graph program, the program will display
 an interactive graph showing the stock data with candlestick patterns. This information could be useful
 to make financial decisions based on the stock such as buying, selling, holding, long term, short term, etc.
+
+Disclaimer: This application is for informational purposes only. Stock trading involves risks, and users are
+still responsible for their own decisions. We are not liable for financial losses from the use of this application.
 
 ## If you find a bug or a possible improvement to this project, please submit an issue in the issues tab above. Thank you!
 
